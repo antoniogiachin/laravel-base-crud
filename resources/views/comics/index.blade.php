@@ -3,6 +3,10 @@
 @section('content')
 
     <div class="container">
+        <h1 class="text-center text-uppercase text-success">I nostri Fumetti</h1>
+        <button class="btn btn-primary">
+            <a href="{{ route('comics.create') }}" class="text-dark">Aggiungi un nuovo fumetto</a>
+        </button>
         <table class="table">
             {{-- head tabella --}}
             <thead>

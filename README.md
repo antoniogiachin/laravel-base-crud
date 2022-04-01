@@ -20,3 +20,17 @@
 - Nel metodo controller show passo come argomenti il model e una variabile, sto dicendo di creare una nuova istanza di quell'oggetto/model, a quel punto la funzione ritorna la view e le passa la variabile/nuova istanza.
 - nell'index passo al button la route {{ route('comics.show', $comic->id) }}, aggiunta fondamentale il $comic->id;
 
+## Terzo passaggio -> permetto inserimento di nuovo comic tramite il form in create
+- Il form si trova nella rotta create, la quale restituisce alla vista utente il form da compilare
+- il form deve contenerail token di sicurezza di Laravel @csrf
+- in ciascun input del form il name deve essere uguale al nome della colonna cui si riferisce
+- il form avrà method="POST" e nella action la route per lo store che verrà fatto all'invio dei campi compilati {{ route('comics.store') }}
+- nel metodo controller create dico ddi tornare la vista comics.create
+
+## Quarto passaggio -> Recupero nello store i dati del form e li aggiungo al DB
+- Come argomenti funzione store del controller scrivo: REQUEST $request, creo una nuova istanza dell'oggetto REQUEST
+- salvo in $data, tramite metodo $request->all() un array associativo contenente tutti i dati inseriti nel form
+- istanzio nuovo Comic() e lo popolo con elementi presenti in array associativo $data
+- per farlo in maniera rapida si può usare il fill, $newComic->fill($data), però devo dichiarare nel model di Comic quali campi sono 'fillable'
+- a questo punto chiedo di tornare alla pagina in cui è presente il nuovo fumetto inserito return redirect()->route('comic.show', $newComic->id)
+
