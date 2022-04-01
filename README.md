@@ -15,5 +15,8 @@
 - Creo le views-> layout{base} e cartella comics{index-show-create}
 - nel controller definisco le logiche per index-> recupero con il model::all() tutto il contenuto della tabella e lo passo alla vista, nella view index ciclo il contenuto passato e stampo la tabella
 
-## Secondo passaggio
+## Secondo passaggio Show -> Leggo i dati di uno specifico comic
+{ comics/{comic} | comics.show | App\Http\Controllers\ComicController@show }
+- Nel metodo controller show passo come argomenti il model e una variabile, sto dicendo di creare una nuova istanza di quell'oggetto/model, a quel punto la funzione ritorna la view e le passa la variabile/nuova istanza.
+- nell'index passo al button la route {{ route('comics.show', $comic->id) }}, aggiunta fondamentale il $comic->id;
 
