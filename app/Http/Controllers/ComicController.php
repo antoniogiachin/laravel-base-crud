@@ -39,6 +39,31 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
+
+        //definisco delle validazioni utilizzando il metodo validate di request
+        $request->validate(
+
+            //array associativo con validazioni
+            [
+
+                "title" =>'required|min:5',
+
+                "description" => 'required|min:10',
+
+                "thumb" => 'required|url',
+
+                "price" => 'required|numeric| min:1',
+
+                "series" => 'required| min:2',
+
+                "sale_date" => 'required|date',
+
+                "type" => 'required',
+
+            ]
+
+        );
+
         // salvo in data array associativo con dati inseriti nel form
         $data = $request->all();
 
@@ -56,7 +81,7 @@ class ComicController extends Controller
         $newComic->save();
 
         // mandami alla pagina con il nuovo comic inserito
-        return redirect()->route('comics.show', $newComic->id);
+        return redirect()->route('comics.show', $newComic->id)->with('insert', 'Nuovo fumetto inserito con successo!');
 
     }
 
@@ -77,9 +102,10 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comic $comic)
     {
-        //
+        //passo alla vista edit le info sul comic selezionato
+        return view('comics.edit', compact('comic'));
     }
 
     /**
@@ -89,9 +115,44 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comic $comic)
     {
-        //
+        //definisco delle validazioni utilizzando il metodo validate di request
+        $request->validate(
+
+            //array associativo con validazioni
+            [
+
+                "title" =>'required|min:5',
+
+                "description" => 'required|min:10',
+
+                "thumb" => 'required|url',
+
+                "price" => 'required|numeric| min:1',
+
+                "series" => 'required| min:2',
+
+                "sale_date" => 'required|date',
+
+                "type" => 'required',
+
+            ]
+
+        );
+
+        //recupero dati form
+        $data = $request->all();
+
+        // faccio update con i data
+        $comic->update($data);
+
+        // salvo
+        $comic->save();
+
+        //definisco pagina ri return: la pagina con il comic modificato
+        return redirect()-> route('comics.show', $comic->id)->with('insert', 'Fumetto modificato con successo!');;
+
     }
 
     /**
@@ -100,8 +161,12 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        // metodo di cancellazione
+        $comic->delete();
+
+        //definisco rotta di ritorno
+        return redirect()->route('comics.index')->with('status', 'Cancellazione avvenuta con successo!');
     }
 }

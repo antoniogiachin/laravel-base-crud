@@ -6,6 +6,13 @@
 
 @section('content')
 
+    {{-- modifica avvenuta con successo --}}
+    @if (session('insert'))
+        <div class="alert alert-success">
+            {{ session('insert') }}
+        </div>
+    @endif
+
     <div class="container">
         <h1 class="text-center"> Ecco i dettagli di: <span class="fw-bold">{{ $comic->title }}</span> </h1>
         <table class="table">

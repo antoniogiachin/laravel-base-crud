@@ -34,3 +34,29 @@
 - per farlo in maniera rapida si può usare il fill, $newComic->fill($data), però devo dichiarare nel model di Comic quali campi sono 'fillable'
 - a questo punto chiedo di tornare alla pagina in cui è presente il nuovo fumetto inserito return redirect()->route('comic.show', $newComic->id)
 
+## Quinto passaggio -> modifica dei dati tramite EDIT
+Ci restiuisce una pagine simile a quella del create, con la differenza che il metodo chiamato sarà di PUT, non essendo proprio di HTTP, si lascia nel form il method="POST" e poi si inserisce una funzione di Laravel @method="PUT"
+- Argomenti funzione edit controller con injection edit(Comic $comic), ritorna view('comic.edit', compact('comic'))
+- Stilizzo index con icona collegamento comic.edit e la pagina in questione
+- Inserisco nella pagina comic.edit all'interno del form @method("PUT"), la azione richiama alla route relativa al metodo "comic.update"
+- Definisco il metodo update, anche qui aggiungo una injection per istanziare un nuovo oggetto comic
+- Usando il metodo validate di request definisco delle validazioni, in seguito salvo i dati del form con la funzione di request->all(), poi con $comic->update(), faccio l'aggiornamento e salvo
+- Definisco la rotta di ritorno ad operazione completata
+- Nella view di edit imposto i value predefiniti con la funzione old, per evitare che in caso di errore i campi vengano svuotati(faccio la stessa cosa per create-store)
+- Se la validazione fallisce viene segnalata all'utente: inserisco il seguente snippet di codice nel laout base:
+    * [(@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif)]
+- Aggiungo le stesse validazione allo store
+- Aggiungo il flash data di successo ad entrambi con il metodo ->with e snippet nello show
+
+## Sesto passaggio -> eliminazione tramite DELETE
+- Si usa il metodo destroy anche qui al posto di id utilizzo injection
+- Uso $comic->delete() come metodo per la cancellazione
+- Il pulsante per la gestione della delete essendo un metodo post non può essere un href(che è di GET), sarà dunque un miniform
