@@ -41120,7 +41120,20 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // nodelist riferendomi con il queryselectorall
+
+
+var removeComic = document.querySelectorAll('.delete');
+console.log(removeComic); // foreach degli elementi della nodelist esegui un aggiunta di ascoltatore di eventi
+
+removeComic.forEach(function (removeComic) {
+  removeComic.addEventListener('click', // la funzione lanciata dall'ascoltatore: se il confirm è uguale a false non prosseguire l'azione altrimenti si
+  function (action) {
+    if (confirm('Vuoi davvero rimuovere il fumetto?') == false) {
+      action.preventDefault();
+    }
+  });
+}); //method="post" action="{{ route('comics.destroy', $comic->id) }}"
 
 /***/ }),
 
