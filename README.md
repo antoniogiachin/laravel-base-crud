@@ -60,3 +60,7 @@ Ci restiuisce una pagine simile a quella del create, con la differenza che il me
 - Si usa il metodo destroy anche qui al posto di id utilizzo injection
 - Uso $comic->delete() come metodo per la cancellazione
 - Il pulsante per la gestione della delete essendo un metodo post non può essere un href(che è di GET), sarà dunque un miniform
+
+## Bonus -> tramite javascript, quando l’utente clicca sul pulsante “delete”, chiedere conferma della cancellazione, prima di eliminare l’elemento.
+
+Aggiunto *onclick="return confirm('Vuoi davvero cancellare il fumetto?')"* al form bottone cancellazione
